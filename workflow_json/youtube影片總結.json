@@ -169,13 +169,32 @@
         "operation": "create",
         "projectId": "pyubx5bis55x7cp",
         "table": "m2ez5ovogokqbe2",
-        "dataToSend": "autoMapInputData"
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Video name",
+              "fieldValue": "={{ $('Get YouTube Video').item.json.snippet.title }}"
+            },
+            {
+              "fieldName": "url",
+              "fieldValue": "={{ $json.url }}"
+            },
+            {
+              "fieldName": "Description",
+              "fieldValue": "={{ $('Get YouTube Video').item.json.snippet.description }}"
+            },
+            {
+              "fieldName": "transcript",
+              "fieldValue": "={{ $('Response Object').item.json.transcript }}"
+            }
+          ]
+        }
       },
       "type": "n8n-nodes-base.nocoDb",
       "typeVersion": 3,
       "position": [
-        580,
-        -260
+        1260,
+        -300
       ],
       "id": "96cf428d-57e7-40e4-8840-2762618ea53f",
       "name": "NocoDB",
@@ -621,6 +640,105 @@
       ],
       "id": "8be2f8a8-60c6-498c-9474-d8d7c30d80f1",
       "name": "if tg from me"
+    },
+    {
+      "parameters": {
+        "url": "http://192.168.50.214:7863/api/v2/tables/m2ez5ovogokqbe2/records",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "viewId",
+              "value": "vw2r69qdmsjlpxqm"
+            },
+            {
+              "name": "fields",
+              "value": "url"
+            },
+            {
+              "name": "limit",
+              "value": "25"
+            },
+            {
+              "name": "shuffle",
+              "value": "0"
+            },
+            {
+              "name": "offset",
+              "value": "0"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "xc-token",
+              "value": "3erDkzmFRN_2sTmamU17_H9mYD9buGDKDzePTWYc"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        560,
+        -260
+      ],
+      "id": "878e9032-e3c9-4e4f-b6d5-ce315413c5ba",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 從前一個節點獲取輸入資料\nconst newUrl = $('Response Object').first().json.url\n// 從NocoDB查詢節點獲取現有資料（含分頁結構）\nconst existingData = $input.first().json;\n// 提取實際的 URL 列表\nconst urlList = existingData.list.map(item => item.url);\n// 檢查是否已存在相同記錄\n\n\n// 只有當不是重複時才繼續流程\nif (urlList.includes(newUrl)) {\n  return {\n    error: \"⛔ URL 已存在\",\n    duplicateUrl: newUrl,\n    existingCount: urlList.length\n  };\n}\n\n// 6. 通過檢查，返回可寫入的資料\nreturn { \n  url: newUrl,\n  note: \"✅ 可安全寫入資料庫\"\n};\n\n// 如果是重複則返回null，後續節點可處理"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        760,
+        -280
+      ],
+      "id": "7713cb8e-d403-4649-85b1-cb65dbf6a555",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3022f508-de24-44fa-9fba-791a41a9afcb",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        980,
+        -280
+      ],
+      "id": "be27c08b-9786-4025-8a99-bcd3cf52ea54",
+      "name": "If"
     }
   ],
   "pinData": {
@@ -676,7 +794,7 @@
       "main": [
         [
           {
-            "node": "NocoDB",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -863,13 +981,46 @@
         ],
         []
       ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "NocoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "9ba3be70-a238-4c2f-af8f-ec018902fe03",
+  "versionId": "ab9e54fa-246d-4b4d-9ea7-e4cca50b473b",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "562decce586825797ad23fdec8296d72c204d6201df525588fbf10fcbbf8763f"
