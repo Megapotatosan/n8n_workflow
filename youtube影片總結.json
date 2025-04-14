@@ -1,0 +1,879 @@
+{
+  "name": "youtube影片總結",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3ee42e4c-3cee-4934-97e7-64c96b5691ed",
+              "name": "youtubeUrl",
+              "type": "string",
+              "value": "={{ $json.message.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3e77b786-db8a-4ca2-b283-3cee3c4b3661",
+      "name": "Get YouTube URL",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -540,
+        40
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "jsCode": "const extractYoutubeId = (url) => {\n  // Regex pattern that matches both youtu.be and youtube.com URLs\n  const pattern = /(?:youtube\\.com\\/(?:[^\\/]+\\/.+\\/|(?:v|e(?:mbed)?)\\/|.*[?&]v=)|youtu\\.be\\/)([^\"&?\\/\\s]{11})/;\n  const match = url.match(pattern);\n  return match ? match[1] : null;\n};\n\n// Input URL from previous node\nconst youtubeUrl = items[0].json.youtubeUrl; // Adjust this based on your workflow\n\n// Process the URL and return the video ID\nreturn [{\n  json: {\n    videoId: extractYoutubeId(youtubeUrl)\n  }\n}];\n"
+      },
+      "id": "cf376da7-0f4e-4ac1-9c89-ecd5b8ef63a5",
+      "name": "YouTube Video ID",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        -380,
+        140
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "get",
+        "videoId": "={{ $json.videoId }}",
+        "options": {}
+      },
+      "id": "af39ef22-2532-40b4-a2f6-59b16293e1ef",
+      "name": "Get YouTube Video",
+      "type": "n8n-nodes-base.youTube",
+      "position": [
+        -60,
+        40
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "kuFDQz8SmfIPZHDn",
+          "name": "YouTube account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bf132004-6636-411f-9d85-0c696fda84c4",
+              "name": "transcript",
+              "type": "string",
+              "value": "={{ $json.text }}"
+            },
+            {
+              "id": "171f30cf-34e9-42f3-8735-814024bfde0b",
+              "name": "Video name",
+              "type": "string",
+              "value": "={{ $('Get YouTube Video').item.json.snippet.title }}"
+            },
+            {
+              "id": "7f26f5a3-e695-49d1-b1e8-9260c31f1b3d",
+              "name": "Description",
+              "type": "string",
+              "value": "={{ $('Get YouTube Video').item.json.snippet.description }}"
+            },
+            {
+              "id": "17b6ca08-ce89-4467-bd25-0d2d182f7a8b",
+              "name": "url",
+              "type": "string",
+              "value": "={{ $('Get YouTube URL').item.json.youtubeUrl }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "644a6543-3669-4522-a193-821b3bfe8d8e",
+      "name": "Response Object",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        420,
+        -260
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "youtubeId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-youtube-transcript.youtubeTranscriptNode",
+      "typeVersion": 1,
+      "position": [
+        100,
+        40
+      ],
+      "id": "fa6fc275-e258-4bf6-8b8c-6cf51f99afd1",
+      "name": "Youtube Transcript"
+    },
+    {
+      "parameters": {
+        "formTitle": "新增youtube影片",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "url",
+              "placeholder": "https://www.youtube.com/watch?v=",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "ignoreBots": true,
+          "useWorkflowTimezone": true
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -860,
+        560
+      ],
+      "id": "126980cd-b223-419f-82e9-58a08888d80f",
+      "name": "On form submission",
+      "webhookId": "63fde075-865d-400c-8930-0dcf2475de6d"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -860,
+        140
+      ],
+      "id": "01ed823c-413b-49d9-99dc-f6e403ea5558",
+      "name": "Telegram Trigger",
+      "webhookId": "9584f43a-f0a3-439b-9593-25923b6888a7",
+      "credentials": {
+        "telegramApi": {
+          "id": "4uMaaTKsuODy9G8z",
+          "name": "youtubesummarizer"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "projectId": "pyubx5bis55x7cp",
+        "table": "m2ez5ovogokqbe2",
+        "dataToSend": "autoMapInputData"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        580,
+        -260
+      ],
+      "id": "96cf428d-57e7-40e4-8840-2762618ea53f",
+      "name": "NocoDB",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "xqgGz3nqTgrpovLX",
+          "name": "NocoDB Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bf132004-6636-411f-9d85-0c696fda84c4",
+              "name": "summary",
+              "type": "string",
+              "value": "={{ $json.message.content }}"
+            },
+            {
+              "id": "63c8d0e3-685c-488a-9b45-363cf52479ea",
+              "name": "topics",
+              "type": "array",
+              "value": "=[]"
+            },
+            {
+              "id": "171f30cf-34e9-42f3-8735-814024bfde0b",
+              "name": "title",
+              "type": "string",
+              "value": "={{ $('Get YouTube Video').item.json.snippet.title }}"
+            },
+            {
+              "id": "7f26f5a3-e695-49d1-b1e8-9260c31f1b3d",
+              "name": "description",
+              "type": "string",
+              "value": "={{ $('Get YouTube Video').item.json.snippet.description }}"
+            },
+            {
+              "id": "d0594232-cb39-453c-b015-3b039c098e1f",
+              "name": "id",
+              "type": "string",
+              "value": "={{ $('Get YouTube Video').item.json.id }}"
+            },
+            {
+              "id": "17b6ca08-ce89-4467-bd25-0d2d182f7a8b",
+              "name": "youtubeUrl",
+              "type": "string",
+              "value": "={{ $('Get YouTube URL').item.json.youtubeUrl }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "993f58b5-21c8-4f53-b12b-0b66b2e110c9",
+      "name": "Response Object1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1080,
+        -120
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "deepseek-chat",
+          "mode": "list",
+          "cachedResultName": "DEEPSEEK-CHAT"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You find a transcript of a YouTube video below. \n\n1. Break down the point into main topics using Level 2 headers (##)\n2. Under each header:\n   - List only the most essential concepts and key points\n   - Use bullet points for clarity\n   - Keep explanations concise\n   - Preserve technical accuracy\n   - Highlight key terms in bold\n3. Organize the information in this sequence:\n   - Definition/Background\n   - Main characteristics\n   - Implementation details\n   - Advantages/Disadvantages\n4. Format requirements:\n   - Use markdown formatting\n   - [emoji]bullet points and keep it simple\n   - Bold important terms using **term**\n   - Use tables for comparisons\n   - Include relevant technical details\nPlease respond in 繁體中文, this is a must.\nHere is the text:\n{{ $('Youtube Transcript').item.json.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        460,
+        20
+      ],
+      "id": "b583283d-4be9-4f7a-8909-8c36f532b623",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "ailzFRCW0KEg3Xvn",
+          "name": "deepseek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bf132004-6636-411f-9d85-0c696fda84c4",
+              "name": "summary",
+              "type": "string",
+              "value": "={{ $json.message.content.summary }}"
+            },
+            {
+              "id": "63c8d0e3-685c-488a-9b45-363cf52479ea",
+              "name": "topics",
+              "type": "array",
+              "value": "=[]"
+            },
+            {
+              "id": "171f30cf-34e9-42f3-8735-814024bfde0b",
+              "name": "title",
+              "type": "string",
+              "value": "={{ $('Get YouTube Video').item.json.snippet.title }}"
+            },
+            {
+              "id": "7f26f5a3-e695-49d1-b1e8-9260c31f1b3d",
+              "name": "description",
+              "type": "string",
+              "value": "={{ $('Get YouTube Video').item.json.snippet.description }}"
+            },
+            {
+              "id": "d0594232-cb39-453c-b015-3b039c098e1f",
+              "name": "id",
+              "type": "string",
+              "value": "={{ $('Get YouTube Video').item.json.id }}"
+            },
+            {
+              "id": "17b6ca08-ce89-4467-bd25-0d2d182f7a8b",
+              "name": "youtubeUrl",
+              "type": "string",
+              "value": "={{ $('Get YouTube URL').item.json.youtubeUrl }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ae878ac9-ea46-4f9e-8b5a-8ac4c71f22fe",
+      "name": "Response Object2",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1080,
+        100
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message }}",
+                    "rightValue": "={{ $('Telegram Trigger').item.json.message }}",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "b86b6901-afb7-4649-8cd1-275b22736785"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "from telegram"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1b1cdf9d-e92d-4841-9dce-47adadaa74d1",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "notExists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "from form"
+            }
+          ]
+        },
+        "options": {
+          "allMatchingOutputs": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        760,
+        20
+      ],
+      "id": "f7f439fa-f8aa-4cd6-9eb6-5073095a8a85",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "text": "你係咪冇send到url出嚟啊",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -60,
+        240
+      ],
+      "id": "d7452d03-d334-4ac7-ba2f-e8566808b58c",
+      "name": "Telegram no url",
+      "webhookId": "7c98d930-aaf3-45ff-b262-fdd1526ad166",
+      "credentials": {
+        "telegramApi": {
+          "id": "4uMaaTKsuODy9G8z",
+          "name": "youtubesummarizer"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=呢度係我總結影片嘅內容:\n{{ $json.summary }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1280,
+        -120
+      ],
+      "id": "409c42f3-9c95-4a82-bf6d-b9373740234a",
+      "name": "Telegram tg request",
+      "webhookId": "098f1545-f077-4c82-bd4f-49b00676fa9a",
+      "credentials": {
+        "telegramApi": {
+          "id": "4uMaaTKsuODy9G8z",
+          "name": "youtubesummarizer"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "199390397",
+        "text": "=有人喺form到submit左條片\n{{ $('Get YouTube URL').item.json.youtubeUrl }}\n以下係條片嘅總結:\n\n{{ $json.summary }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1280,
+        100
+      ],
+      "id": "87663c0e-cb75-4a08-9aab-0655591fc440",
+      "name": "Telegram form request",
+      "webhookId": "7bb7c669-785e-412f-908a-a4fec955d2fc",
+      "credentials": {
+        "telegramApi": {
+          "id": "4uMaaTKsuODy9G8z",
+          "name": "youtubesummarizer"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "睇嚟條片冇字幕wor",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        420,
+        260
+      ],
+      "id": "64add44f-1c10-4101-af60-d94689e3e113",
+      "name": "Telegram no transcript",
+      "webhookId": "ec392982-a143-445e-b68e-13dc6c6c7925",
+      "credentials": {
+        "telegramApi": {
+          "id": "4uMaaTKsuODy9G8z",
+          "name": "youtubesummarizer"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a18d80d1-8516-4d11-8b5f-ea963a5622c1",
+              "name": "youtubeUrl",
+              "value": "={{ $json.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -560,
+        560
+      ],
+      "id": "dc78513a-029a-4312-baca-cdd3a633c68a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "提交youtube連結",
+        "completionMessage": "提交成功",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        -700,
+        560
+      ],
+      "id": "f6627e5b-035d-49d0-9e9e-07e79521b2d8",
+      "name": "Form",
+      "webhookId": "e01ab20f-98f8-4056-9e60-2b62b416dc3c"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7374acfe-af37-4210-8b64-6045164f8038",
+              "leftValue": "={{ $json.text }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        260,
+        40
+      ],
+      "id": "60e57fe9-0956-4df5-8a89-b79180c24af8",
+      "name": "if have summary"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "78f34140-4887-453e-80a5-97439af4618b",
+              "leftValue": "={{ $json.videoId }}",
+              "rightValue": "null",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -220,
+        140
+      ],
+      "id": "260d66e2-f07f-44c3-b280-98eda41aed0d",
+      "name": "If contain videoid"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9160567e-2ece-4248-bcdd-12a85a2a31bc",
+              "leftValue": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+              "rightValue": 199390397,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -700,
+        140
+      ],
+      "id": "8be2f8a8-60c6-498c-9474-d8d7c30d80f1",
+      "name": "if tg from me"
+    }
+  ],
+  "pinData": {
+    "Telegram Trigger": [
+      {
+        "json": {
+          "update_id": 378288958,
+          "message": {
+            "message_id": 16,
+            "from": {
+              "id": 199390397,
+              "is_bot": false,
+              "first_name": "Jian-Yang",
+              "username": "youcantseemelmao",
+              "language_code": "zh-hans"
+            },
+            "chat": {
+              "id": 199390397,
+              "first_name": "Jian-Yang",
+              "username": "youcantseemelmao",
+              "type": "private"
+            },
+            "date": 1744621449,
+            "text": "https://www.youtube.com/watch?v=y-eEbmNeFZo",
+            "entities": [
+              {
+                "offset": 0,
+                "length": 43,
+                "type": "url"
+              }
+            ],
+            "link_preview_options": {
+              "url": "https://www.youtube.com/watch?v=y-eEbmNeFZo"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Get YouTube URL": {
+      "main": [
+        [
+          {
+            "node": "YouTube Video ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Response Object": {
+      "main": [
+        [
+          {
+            "node": "NocoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube Video ID": {
+      "main": [
+        [
+          {
+            "node": "If contain videoid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get YouTube Video": {
+      "main": [
+        [
+          {
+            "node": "Youtube Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Youtube Transcript": {
+      "main": [
+        [
+          {
+            "node": "if have summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "if tg from me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Response Object1": {
+      "main": [
+        [
+          {
+            "node": "Telegram tg request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Response Object1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Response Object2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Response Object2": {
+      "main": [
+        [
+          {
+            "node": "Telegram form request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "YouTube Video ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if have summary": {
+      "main": [
+        [
+          {
+            "node": "Response Object",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram no transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If contain videoid": {
+      "main": [
+        [
+          {
+            "node": "Get YouTube Video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram no url",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if tg from me": {
+      "main": [
+        [
+          {
+            "node": "Get YouTube URL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9ba3be70-a238-4c2f-af8f-ec018902fe03",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "562decce586825797ad23fdec8296d72c204d6201df525588fbf10fcbbf8763f"
+  },
+  "id": "Th4l7t21t29DoV7m",
+  "tags": []
+}
