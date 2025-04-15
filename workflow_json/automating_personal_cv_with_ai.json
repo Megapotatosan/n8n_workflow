@@ -1,0 +1,2289 @@
+{
+  "name": "automating personal cv with ai",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70",
+          "mode": "list",
+          "cachedResultName": "n8n Tailored CV automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8d89b8f0-bcd6-4b4b-ab7c-b4797baf5a60",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "jMv32GVUvy2Xd18f",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70",
+          "mode": "list",
+          "cachedResultName": "n8n Tailored CV automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Waiting"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        280,
+        0
+      ],
+      "id": "c96a8115-da70-4635-8434-ae0bc76980b6",
+      "name": "read Main Data Sheet",
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sp8hXEF7O5wMqJTo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70",
+          "mode": "list",
+          "cachedResultName": "n8n Tailored CV automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Generating",
+            "start / stop": "start"
+          },
+          "matchingColumns": [
+            "start / stop"
+          ],
+          "schema": [
+            {
+              "id": "start / stop",
+              "displayName": "start / stop",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "User",
+              "displayName": "User",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Description",
+              "displayName": "Job Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Cover Letter Link",
+              "displayName": "Generated Cover Letter Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Resume Link",
+              "displayName": "Generated Resume Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        500,
+        0
+      ],
+      "id": "e345dcf3-a13e-47d2-9dfb-87703e877a70",
+      "name": "Google Sheets",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sp8hXEF7O5wMqJTo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70",
+          "mode": "list",
+          "cachedResultName": "n8n Tailored CV automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1094778185,
+          "mode": "list",
+          "cachedResultName": "user",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit#gid=1094778185"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "user",
+              "lookupValue": "={{ $('read Main Data Sheet').item.json.User }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        680,
+        0
+      ],
+      "id": "43c503bf-4b83-4dd5-a60c-b55b9433274a",
+      "name": "Update Status: Generating",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sp8hXEF7O5wMqJTo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $json.resume }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        900,
+        0
+      ],
+      "id": "fbea64a0-98db-4c0e-a538-5ed49a7e03c0",
+      "name": "Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "MldiZHT3OHwJbZRe",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "openai/gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "OPENAI/GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a Job Application Keywords Extractor. Your task is to analyze a given job description and extract a list of the most important and relevant keywords and phrases that a job applicant should include in their resume or application. These keywords typically relate to skills, qualifications, tools, technologies, responsibilities, and experience that the employer is seeking.\n\nInstructions:\n\nRead the entire job description carefully.\nIdentify and list:\nRequired hard skills (e.g., programming languages, software, technical tools).\nRequired soft skills (e.g., communication, leadership, problem-solving).\nJob titles, certifications, or educational qualifications mentioned.\nKey responsibilities or duties.\nIndustry-specific keywords or terminology.\nReturn the keywords in bullet-point format.\nDo not include irrelevant or generic terms.\nAvoid duplication.\nInput:\n{{ $('read Main Data Sheet').item.json['Job Description'] }}\n\nOutput:\nA bullet-point list of job application keywords extracted from the job description."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "b39e7d5b-0c3b-42b2-8d58-34540d72c7bb",
+      "name": "Job application keywords",
+      "credentials": {
+        "openAiApi": {
+          "id": "DeGXlA79xc62KMDs",
+          "name": "openrouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70",
+          "mode": "list",
+          "cachedResultName": "n8n Tailored CV automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "start / stop": "start",
+            "Status": "Job Ad Keywords Generated",
+            "Job Ad keywords": "={{ $json.message.content }}"
+          },
+          "matchingColumns": [
+            "start / stop"
+          ],
+          "schema": [
+            {
+              "id": "start / stop",
+              "displayName": "start / stop",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "User",
+              "displayName": "User",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Description",
+              "displayName": "Job Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Cover Letter Link",
+              "displayName": "Generated Cover Letter Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Resume Link",
+              "displayName": "Generated Resume Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Ad keywords",
+              "displayName": "Job Ad keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1500,
+        0
+      ],
+      "id": "fd6963a5-0e8f-49c6-9fb1-cb8829071f66",
+      "name": "Update Status: Job Ad Keywords Generated",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sp8hXEF7O5wMqJTo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "openai/gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "OPENAI/GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a Resume Keywords Extractor. Your role is to analyze a provided resume and extract a list of the most relevant and significant keywords that represent the candidate’s skills, qualifications, experiences, tools, technologies, and job responsibilities.\n\nThese keywords will be used by another AI agent to compare against a set of job application keywords for resume refinement and optimization.\n\nInstructions:\n\nRead and analyze the full resume carefully.\nIdentify and extract the following:\nHard skills (e.g., programming languages, technical proficiencies, tools, software).\nSoft skills (e.g., communication, leadership, teamwork, adaptability).\nJob titles and roles held by the candidate.\nCertifications, degrees, or education-related qualifications.\nKey achievements, actions, and responsibilities from work experience and projects.\nKeywords specific to industry, processes, or methodologies.\nPresent the keywords in a bullet-point list format.\nRemove any duplicates or overly generic terms.\nFocus only on concrete and meaningful terms relevant to a hiring context.\nInput:\n{{ $('Google Docs').item.json.content }}\n\nOutput:\nA bullet-point list of the most relevant resume keywords extracted from the resume."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1120,
+        240
+      ],
+      "id": "52667aee-59ae-4289-930b-47522feb9958",
+      "name": "user resume keywords",
+      "credentials": {
+        "openAiApi": {
+          "id": "DeGXlA79xc62KMDs",
+          "name": "openrouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70",
+          "mode": "list",
+          "cachedResultName": "n8n Tailored CV automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "User's Resume Keywords Generated",
+            "start / stop": "start",
+            "User's Resume Keywords": "={{ $json.message.content }}"
+          },
+          "matchingColumns": [
+            "start / stop"
+          ],
+          "schema": [
+            {
+              "id": "start / stop",
+              "displayName": "start / stop",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "User",
+              "displayName": "User",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Description",
+              "displayName": "Job Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Cover Letter Link",
+              "displayName": "Generated Cover Letter Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Resume Link",
+              "displayName": "Generated Resume Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Ad keywords",
+              "displayName": "Job Ad keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "User's Resume Keywords",
+              "displayName": "User's Resume Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1500,
+        240
+      ],
+      "id": "de21c317-e278-4d60-be28-935ac4b7353a",
+      "name": "Update Status: User's Resume Keywords Generated",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sp8hXEF7O5wMqJTo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "openai/gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "OPENAI/GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a Keyword Refiner AI. Your task is to refine and adjust a list of resume keywords to better align with a provided list of job application keywords from a job description. The goal is to ensure the resume better reflects the language, skillsets, and expertise sought by the employer without misrepresenting the candidate’s actual experience.\n\nInstructions:\n\nCompare the resume keywords with the job description keywords.\nIdentify:\nMissing but relevant keywords from the job description that can be included based on the candidate’s experience.\nSimilar keywords that can be reworded to better match the terminology of the job description.\nMake sure any refined or added keywords still reflect the candidate’s actual experience and skills.\nDo not add keywords that are not supported by the resume content.\nOutput a refined list of resume keywords that are better aligned with the job description.\nPresent the refined list in bullet-point format.\nInput:\n\nResume Keywords:\n{{ $json['User\\'s Resume Keywords'] }}\nJob Description Keywords:\n{{ $('Update Status: Job Ad Keywords Generated').item.json['Job Ad keywords'] }}\nOutput:\n\nA refined list of resume keywords more closely aligned with the job description."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1120,
+        460
+      ],
+      "id": "3e3aec17-8e51-4a75-bead-b20baa157b43",
+      "name": "Keyword Refiner",
+      "credentials": {
+        "openAiApi": {
+          "id": "DeGXlA79xc62KMDs",
+          "name": "openrouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70",
+          "mode": "list",
+          "cachedResultName": "n8n Tailored CV automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "start / stop": "start",
+            "Status": "Refined keyword generated",
+            "Refined Keywords": "={{ $json.message.content }}"
+          },
+          "matchingColumns": [
+            "start / stop"
+          ],
+          "schema": [
+            {
+              "id": "start / stop",
+              "displayName": "start / stop",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "User",
+              "displayName": "User",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Description",
+              "displayName": "Job Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Cover Letter Link",
+              "displayName": "Generated Cover Letter Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Resume Link",
+              "displayName": "Generated Resume Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Ad keywords",
+              "displayName": "Job Ad keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "User's Resume Keywords",
+              "displayName": "User's Resume Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Refined Keywords",
+              "displayName": "Refined Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1820,
+        460
+      ],
+      "id": "f1d863b9-3159-418f-90ba-4ea65ff2a982",
+      "name": "Update Status: Refined keyword generated",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sp8hXEF7O5wMqJTo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "openai/gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "OPENAI/GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a Keyword Refiner AI. Your task is to refine and adjust a list of resume keywords to better align with a provided list of job application keywords from a job description. The goal is to ensure the resume better reflects the language, skillsets, and expertise sought by the employer without misrepresenting the candidate’s actual experience.\n\nInstructions:\n\nCompare the resume keywords with the job description keywords.\nIdentify:\nMissing but relevant keywords from the job description that can be included based on the candidate’s experience.\nSimilar keywords that can be reworded to better match the terminology of the job description.\nMake sure any refined or added keywords still reflect the candidate’s actual experience and skills.\nDo not add keywords that are not supported by the resume content.\nOutput a refined list of resume keywords that are better aligned with the job description.\nPresent the refined list in bullet-point format.\nInput:\n\nResume Keywords:\n{{ $json['User\\'s Resume Keywords'] }}\nJob Description Keywords:\n{{ $('Update Status: Job Ad Keywords Generated').item.json['Job Ad keywords'] }}\nOutput:\n\nA refined list of resume keywords more closely aligned with the job description."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1100,
+        700
+      ],
+      "id": "9470e4e2-f215-4403-928c-7d5244c84829",
+      "name": "Keyword Refiner1",
+      "credentials": {
+        "openAiApi": {
+          "id": "DeGXlA79xc62KMDs",
+          "name": "openrouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "openai/gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "OPENAI/GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a Company Mission and Values Extractor AI. Your task is to analyze a job description and extract the company’s mission, vision, and core values as described or implied in the text. This information will be used by a separate AI agent to generate a general cover letter that aligns with the company’s culture and goals.\n\nInstructions:\n\nCarefully read the entire job description.\nIdentify and extract:\nStatements that describe or imply the company's mission (what the company aims to achieve or stand for).\nStatements that describe or suggest the company's vision (the long-term impact or direction).\nCore values or principles the company emphasizes (e.g., innovation, integrity, sustainability, collaboration, diversity, customer-first).\nParaphrase the extracted information into concise and clear bullet points, grouped under relevant headings (e.g., “Mission,” “Vision,” “Core Values”).\nAvoid copying full blocks of text—interpret and condense instead.\nIf not explicitly stated, infer values or mission statements based on the language and tone in the description, labeling them as inferred (e.g., \"Inferred Value: Innovation\").\nInput:\n{{ $('read Main Data Sheet').item.json['Job Description'] }}\n\n\nOutput:\n\nMission:\n[Bullet-point summary or paraphrased sentence]\nVision: (if available)\n[Bullet-point summary or paraphrased sentence]\nCore Values:\n[List of core values and principles, with note if any are inferred]"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2080,
+        0
+      ],
+      "id": "e0f0bb77-7022-40bb-ad15-7eb2f99f1ce7",
+      "name": "Company Missions And Value",
+      "credentials": {
+        "openAiApi": {
+          "id": "DeGXlA79xc62KMDs",
+          "name": "openrouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70",
+          "mode": "list",
+          "cachedResultName": "n8n Tailored CV automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Company Missions and Values Generated",
+            "start / stop": "start",
+            "Company Missions and Values": "={{ $json.message.content }}"
+          },
+          "matchingColumns": [
+            "start / stop"
+          ],
+          "schema": [
+            {
+              "id": "start / stop",
+              "displayName": "start / stop",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "User",
+              "displayName": "User",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Description",
+              "displayName": "Job Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Cover Letter Link",
+              "displayName": "Generated Cover Letter Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Resume Link",
+              "displayName": "Generated Resume Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Ad keywords",
+              "displayName": "Job Ad keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "User's Resume Keywords",
+              "displayName": "User's Resume Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Refined Keywords",
+              "displayName": "Refined Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company Missions and Values",
+              "displayName": "Company Missions and Values",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2420,
+        0
+      ],
+      "id": "4e6cf641-78fd-48ab-8044-92cd98d75da6",
+      "name": "Update Status: Company Missions and Values",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sp8hXEF7O5wMqJTo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "openai/gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "OPENAI/GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a General Cover Letter Generator AI. Your role is to draft a personalized, professional, and compelling cover letter based on the following input information:\n\nInputs:\n\n\nJob Title:\n{{ $('Google Sheets Trigger').item.json['Job Title'] }}\nCompany Name:\n{{ $('Google Sheets Trigger').item.json.Company }}\nCompany Mission, Vision, and Core values:\n{{ $json['Company Missions and Values'] }}\n\nInstructions:\n\nUse the company’s mission, vision, and values to align the tone and content of the cover letter with the company culture.\nIncorporate relevant resume keywords to highlight the candidate’s strengths and qualifications.\nDo not fabricate any experience or make unrealistic claims.\nWrite in a confident, sincere, and enthusiastic tone suitable for a professional job application.\nThe letter should:\nBegin with a friendly and professional greeting.\nExpress interest in the specific job title at the company.\nBriefly highlight the candidate’s top skills and experiences relevant to the role.\nReflect how the candidate’s values and goals align with the company’s mission and vision.\nEnd with a polite and confident call to action or closing statement.\nDo not include any personal information; focus on the professional aspects.\nOutput Format:\n\nReturn the cover letter as a complete, properly structured letter with paragraphs, ready to copy into an application platform or word processing document."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2080,
+        220
+      ],
+      "id": "a2a3727f-9db4-4c2d-acf3-44f4382222c7",
+      "name": "general cover letter generator",
+      "credentials": {
+        "openAiApi": {
+          "id": "DeGXlA79xc62KMDs",
+          "name": "openrouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "folderId": "={{ $('Google Drive').item.json.id }}",
+        "title": "=general cover letter_ {{ $('read Main Data Sheet').item.json.Company }}_{{ $('read Main Data Sheet').item.json['Job Title'] }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        220
+      ],
+      "id": "c94d4ae6-946d-4f5d-92dd-62ba32638eda",
+      "name": "create general cover letter",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "MldiZHT3OHwJbZRe",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $('general cover letter generator').item.json.message.content }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2600,
+        220
+      ],
+      "id": "ec7ca399-4f86-4d49-8d28-03b8639f242b",
+      "name": "write cover letter",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "MldiZHT3OHwJbZRe",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $('read Main Data Sheet').item.json['Job Title'] }}@{{ $('read Main Data Sheet').item.json.Company }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1Kkyn0H_fXapV2WcFZHA0Xcrknc3iR6yY",
+          "mode": "list",
+          "cachedResultName": "n8n_cv_coverletter",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Kkyn0H_fXapV2WcFZHA0Xcrknc3iR6yY"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1480,
+        460
+      ],
+      "id": "d5f3dd1a-9e06-4693-80ac-39af38eff377",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "219KtW1UItitZTqL",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70",
+          "mode": "list",
+          "cachedResultName": "n8n Tailored CV automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "General Cover Letter Generated",
+            "start / stop": "start"
+          },
+          "matchingColumns": [
+            "start / stop"
+          ],
+          "schema": [
+            {
+              "id": "start / stop",
+              "displayName": "start / stop",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "User",
+              "displayName": "User",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Description",
+              "displayName": "Job Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Cover Letter Link",
+              "displayName": "Generated Cover Letter Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Resume Link",
+              "displayName": "Generated Resume Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Ad keywords",
+              "displayName": "Job Ad keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "User's Resume Keywords",
+              "displayName": "User's Resume Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Refined Keywords",
+              "displayName": "Refined Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company Missions and Values",
+              "displayName": "Company Missions and Values",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2800,
+        220
+      ],
+      "id": "b881a6c1-83c5-4fa3-be87-0f467c963568",
+      "name": "Update Status: General Cover Letter Generated",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sp8hXEF7O5wMqJTo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "openai/gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "OPENAI/GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a professional Cover Letter Generation AI. Your task is to refine and personalize a general cover letter draft to fit a specific job position and company, using the candidate’s actual work experience, skills, and accomplishments. The cover letter should be engaging, accurate, and tailored to showcase the candidate as a strong fit for the role.\n\nInput:\nJob Title: {{ $('Google Sheets Trigger').item.json['Job Title'] }}\nCompany Name: {{ $('Google Sheets Trigger').item.json.Company }}\nGeneral Cover Letter Text:\n{{ $('general cover letter generator').item.json.message.content }}\nCandidate's Work Experience & Skills:\n{{ $('Keyword Refiner').item.json.message.content }}\nInstructions for the AI:\nAnalyze the content of the general cover letter and enhance or rewrite it to include:\nSpecific accomplishments and responsibilities from the candidate’s actual work history.\nQuantifiable data wherever possible (e.g., \"% increase in efficiency,\" \"managed a team of 5,\" \"$250K project budget\").\nRelevant skills and tools directly connected to the job title.\nEnsure all candidate information is 100% accurate and based only on the provided experience. Do not fabricate or assume any unlisted achievements or skills.\nRewrite the letter for personalization, aligning tone and examples to resonate with the role at [Company Name] and the expectations for a [Job Title].\nMaintain a confident, clear, and professional tone. Start with an engaging introduction and conclude with a compelling closing paragraph and call to action.\nExpected Output:\nA fully personalized, professional cover letter tailored for the [Job Title] at [Company Name], using real experience, skills, and quantifiable data from the candidate’s background. The final output should be formatted with proper paragraphs and ready for submission."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2080,
+        420
+      ],
+      "id": "de34892f-f4ce-4898-832e-0855137abec7",
+      "name": "personal cover letter generator",
+      "credentials": {
+        "openAiApi": {
+          "id": "DeGXlA79xc62KMDs",
+          "name": "openrouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "folderId": "={{ $('Google Drive').item.json.id }}",
+        "title": "=personalized cover_letter_ {{ $('read Main Data Sheet').item.json.Company }}_{{ $('read Main Data Sheet').item.json['Job Title'] }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        420
+      ],
+      "id": "f97c96ac-1c7f-44fd-adf4-bb1185f7bbad",
+      "name": "create personalized cover letter",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "MldiZHT3OHwJbZRe",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $('personal cover letter generator').item.json.message.content }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2620,
+        420
+      ],
+      "id": "0cb48bbc-5f25-4e2d-a441-db3ec3322a63",
+      "name": "write personalized cover letter",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "MldiZHT3OHwJbZRe",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70",
+          "mode": "list",
+          "cachedResultName": "n8n Tailored CV automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Tailored Cover Letter Generated",
+            "start / stop": "start"
+          },
+          "matchingColumns": [
+            "start / stop"
+          ],
+          "schema": [
+            {
+              "id": "start / stop",
+              "displayName": "start / stop",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "User",
+              "displayName": "User",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Description",
+              "displayName": "Job Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Cover Letter Link",
+              "displayName": "Generated Cover Letter Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Resume Link",
+              "displayName": "Generated Resume Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Ad keywords",
+              "displayName": "Job Ad keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "User's Resume Keywords",
+              "displayName": "User's Resume Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Refined Keywords",
+              "displayName": "Refined Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company Missions and Values",
+              "displayName": "Company Missions and Values",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2840,
+        420
+      ],
+      "id": "dac9a34a-3e24-4e15-833f-6d45d732a2d4",
+      "name": "Update Status: Tailored Cover Letter Generated",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sp8hXEF7O5wMqJTo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "openai/gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "OPENAI/GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a professional cover letter editing assistant. Your task is to revise the following cover letter to make it:\n\nConversational yet professional\nClear and easily understandable for non-native English speakers\nFocused on how the candidate's past experience solves real business challenges\nInstructions:\nRewrite the first sentence to accomplish all of the following:\nExpress empathy for the hiring manager (e.g., acknowledging the challenges of hiring).\nOffer immediate value by stating how the candidate can help address the company’s needs.\nHighlight how the candidate can be a valuable asset to the team.\nThroughout the letter, ensure:\nThe tone remains friendly, confident, and respectful, but never overly casual or formal.\nThe language stays simple and direct, avoiding idioms, slang, uncommon phrasings, or complicated vocabulary.\nAll claims about the candidate’s capabilities are supported by specific examples from their work history.\nInclude quantifiable achievements or outcomes wherever relevant (e.g., “led to a 20% increase in operational efficiency,” “reduced processing time by 15%,” etc.).\nAvoid:\nHumor, exaggerated enthusiasm, or vague statements.\nFabricating achievements or adding any information not already present in the original letter.\nInput:\nOriginal Cover Letter:\n{{ $('personal cover letter generator').item.json.message.content }}\n\nOutput Format:\nReturn the rewritten cover letter in full paragraph format, structured with:\n\nA compelling and empathetic introduction\nA body section highlighting relevant experience through real examples\nA thoughtful closing statement with a clear and confident call to action"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2080,
+        620
+      ],
+      "id": "183b442e-85bd-4099-8c7f-927f52009d95",
+      "name": "Refined personal cover letter generator",
+      "credentials": {
+        "openAiApi": {
+          "id": "DeGXlA79xc62KMDs",
+          "name": "openrouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "folderId": "={{ $('Google Drive').item.json.id }}",
+        "title": "=refined_personalized_cover_letter_ {{ $('read Main Data Sheet').item.json.Company }}_{{ $('read Main Data Sheet').item.json['Job Title'] }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        620
+      ],
+      "id": "affff1a9-6c3a-4480-ab08-75600794bf9a",
+      "name": "create refined cover letter",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "MldiZHT3OHwJbZRe",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $('Refined personal cover letter generator').item.json.message.content }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2620,
+        620
+      ],
+      "id": "b054ddb9-eb57-4a80-b0ba-e2a70f8f4c9a",
+      "name": "write refined cover letter",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "MldiZHT3OHwJbZRe",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70",
+          "mode": "list",
+          "cachedResultName": "n8n Tailored CV automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Refined Cover Letter Generated",
+            "start / stop": "start",
+            "Generated Cover Letter Link": "=https://docs.google.com/document/d/{{ $json.documentId }}"
+          },
+          "matchingColumns": [
+            "start / stop"
+          ],
+          "schema": [
+            {
+              "id": "start / stop",
+              "displayName": "start / stop",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "User",
+              "displayName": "User",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Description",
+              "displayName": "Job Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Cover Letter Link",
+              "displayName": "Generated Cover Letter Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Generated Resume Link",
+              "displayName": "Generated Resume Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Ad keywords",
+              "displayName": "Job Ad keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "User's Resume Keywords",
+              "displayName": "User's Resume Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Refined Keywords",
+              "displayName": "Refined Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company Missions and Values",
+              "displayName": "Company Missions and Values",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2840,
+        620
+      ],
+      "id": "7412ea22-eb89-4582-8f6b-0a45ce0953f8",
+      "name": "Update Status: Refined Cover Letter Generated",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sp8hXEF7O5wMqJTo",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "read Main Data Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read Main Data Sheet": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Update Status: Generating",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status: Generating": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs": {
+      "main": [
+        [
+          {
+            "node": "Job application keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Job application keywords": {
+      "main": [
+        [
+          {
+            "node": "Update Status: Job Ad Keywords Generated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status: Job Ad Keywords Generated": {
+      "main": [
+        [
+          {
+            "node": "user resume keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "user resume keywords": {
+      "main": [
+        [
+          {
+            "node": "Update Status: User's Resume Keywords Generated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status: User's Resume Keywords Generated": {
+      "main": [
+        [
+          {
+            "node": "Keyword Refiner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keyword Refiner": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status: Refined keyword generated": {
+      "main": [
+        [
+          {
+            "node": "Keyword Refiner1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Company Missions And Value",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Company Missions And Value": {
+      "main": [
+        [
+          {
+            "node": "Update Status: Company Missions and Values",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status: Company Missions and Values": {
+      "main": [
+        [
+          {
+            "node": "general cover letter generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "general cover letter generator": {
+      "main": [
+        [
+          {
+            "node": "create general cover letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create general cover letter": {
+      "main": [
+        [
+          {
+            "node": "write cover letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Update Status: Refined keyword generated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write cover letter": {
+      "main": [
+        [
+          {
+            "node": "Update Status: General Cover Letter Generated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status: General Cover Letter Generated": {
+      "main": [
+        [
+          {
+            "node": "personal cover letter generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "personal cover letter generator": {
+      "main": [
+        [
+          {
+            "node": "create personalized cover letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create personalized cover letter": {
+      "main": [
+        [
+          {
+            "node": "write personalized cover letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write personalized cover letter": {
+      "main": [
+        [
+          {
+            "node": "Update Status: Tailored Cover Letter Generated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status: Tailored Cover Letter Generated": {
+      "main": [
+        [
+          {
+            "node": "Refined personal cover letter generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Refined personal cover letter generator": {
+      "main": [
+        [
+          {
+            "node": "create refined cover letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create refined cover letter": {
+      "main": [
+        [
+          {
+            "node": "write refined cover letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write refined cover letter": {
+      "main": [
+        [
+          {
+            "node": "Update Status: Refined Cover Letter Generated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status: Refined Cover Letter Generated": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d002e03a-b65b-4053-8d1a-2f30ad9f152e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "562decce586825797ad23fdec8296d72c204d6201df525588fbf10fcbbf8763f"
+  },
+  "id": "v3Sex6241Y6O131B",
+  "tags": []
+}

@@ -8,7 +8,7 @@ All workflow JSON files are stored in the `workflow_json/` directory. Each workf
 
 Current workflows:
 - `youtube影片總結.json` - Workflow for summarizing YouTube videos
-
+- `automating_personal_cv_with_ai.json` - Workflow for automating personal cv generation by company & job title (on progress)
 ## Getting Started
 
 1. Clone this repository
