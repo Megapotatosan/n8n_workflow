@@ -906,38 +906,6 @@
         "messages": {
           "values": [
             {
-              "content": "=You are a Keyword Refiner AI. Your task is to refine and adjust a list of resume keywords to better align with a provided list of job application keywords from a job description. The goal is to ensure the resume better reflects the language, skillsets, and expertise sought by the employer without misrepresenting the candidate’s actual experience.\n\nInstructions:\n\nCompare the resume keywords with the job description keywords.\nIdentify:\nMissing but relevant keywords from the job description that can be included based on the candidate’s experience.\nSimilar keywords that can be reworded to better match the terminology of the job description.\nMake sure any refined or added keywords still reflect the candidate’s actual experience and skills.\nDo not add keywords that are not supported by the resume content.\nOutput a refined list of resume keywords that are better aligned with the job description.\nPresent the refined list in bullet-point format.\nInput:\n\nResume Keywords:\n{{ $json['User\\'s Resume Keywords'] }}\nJob Description Keywords:\n{{ $('Update Status: Job Ad Keywords Generated').item.json['Job Ad keywords'] }}\nOutput:\n\nA refined list of resume keywords more closely aligned with the job description."
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        1100,
-        700
-      ],
-      "id": "9470e4e2-f215-4403-928c-7d5244c84829",
-      "name": "Keyword Refiner1",
-      "credentials": {
-        "openAiApi": {
-          "id": "DeGXlA79xc62KMDs",
-          "name": "openrouter"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "modelId": {
-          "__rl": true,
-          "value": "openai/gpt-4.1-mini",
-          "mode": "list",
-          "cachedResultName": "OPENAI/GPT-4.1-MINI"
-        },
-        "messages": {
-          "values": [
-            {
               "content": "=You are a Company Mission and Values Extractor AI. Your task is to analyze a job description and extract the company’s mission, vision, and core values as described or implied in the text. This information will be used by a separate AI agent to generate a general cover letter that aligns with the company’s culture and goals.\n\nInstructions:\n\nCarefully read the entire job description.\nIdentify and extract:\nStatements that describe or imply the company's mission (what the company aims to achieve or stand for).\nStatements that describe or suggest the company's vision (the long-term impact or direction).\nCore values or principles the company emphasizes (e.g., innovation, integrity, sustainability, collaboration, diversity, customer-first).\nParaphrase the extracted information into concise and clear bullet points, grouped under relevant headings (e.g., “Mission,” “Vision,” “Core Values”).\nAvoid copying full blocks of text—interpret and condense instead.\nIf not explicitly stated, infer values or mission statements based on the language and tone in the description, labeling them as inferred (e.g., \"Inferred Value: Innovation\").\nInput:\n{{ $('read Main Data Sheet').item.json['Job Description'] }}\n\n\nOutput:\n\nMission:\n[Bullet-point summary or paraphrased sentence]\nVision: (if available)\n[Bullet-point summary or paraphrased sentence]\nCore Values:\n[List of core values and principles, with note if any are inferred]"
             }
           ]
@@ -1985,6 +1953,286 @@
           "name": "Google Sheets account"
         }
       }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "openai/gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "OPENAI/GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a Refined Resume Generator AI. Your task is to take the candidate’s original resume and optimize it for a specific job opening by improving the resume language, structure, and keyword alignment. Use refined job-matching keywords to increase relevance and ATS (Applicant Tracking System) compatibility.\n\n✳️ OBJECTIVE:\nGenerate a tailored and optimized resume that:\n\nHighlights the candidate’s most relevant skills and experience\nNaturally incorporates refined keywords that align with the job description\nMatches the tone, terminology, and requirements of the specific job posting\nRetains factual accuracy and respects the original resume content\nIs professional, cleanly formatted, and easy to read by both humans and ATS platforms\n📥 INPUTS:\nJob Title and Company Name\n{{ $('Google Sheets Trigger').item.json['Job Title'] }} at {{ $('Google Sheets Trigger').item.json.Company }}\nOriginal Resume:\n{{ $('Google Docs').item.json.content }}\nJob Description Keywords and Requirements:\n{{ $('Job application keywords').item.json.message.content }}\nRefined Resume Keywords (Tailored to Job Description):\n{{ $('Keyword Refiner').item.json.message.content }}\nOptional – Company Mission and Core Values (for tone alignment):\n{{ $('Company Missions And Value').item.json.message.content }}\n🛠️ INSTRUCTIONS TO AI:\nAnalyze the original resume to understand the candidate’s background, experiences, and skills.\nIncorporate the refined, job-relevant keywords into the resume content naturally by:\nRewriting or enhancing bullet points\nRestructuring achievements to match the expectations of the job role\nAdjusting summary and skills sections\nMaintain accuracy. Do not fabricate skills, responsibilities, or achievements that are not supported in the original resume.\nIf optional company values are provided, align the wording and tone (especially in the resume summary) with the company’s mission to show cultural fit.\nAdd quantifiable achievements where possible (e.g., \"Improved onboarding efficiency by 30%\").\nEnsure readability and professional formatting using modern resume standards.\nOrganize into common sections:\nResume Summary\nKey Skills / Core Competencies\nWork Experience (with achievements)\nEducation\nCertifications (if applicable)\n✅ Output Format:\nA refined, job-targeted resume fully rewritten and formatted in paragraph and bullet structure, optimized both for ATS and human hiring managers."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1180,
+        840
+      ],
+      "id": "9470e4e2-f215-4403-928c-7d5244c84829",
+      "name": "Resume Summary",
+      "credentials": {
+        "openAiApi": {
+          "id": "DeGXlA79xc62KMDs",
+          "name": "openrouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "folderId": "={{ $('Google Drive').item.json.id }}",
+        "title": "=resume_{{ $('read Main Data Sheet').item.json['Job Title'] }}@{{ $('read Main Data Sheet').item.json.Company }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        840
+      ],
+      "id": "907851cf-a6a5-4ebc-a5fc-c2b7895db71f",
+      "name": "create refined resume",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "MldiZHT3OHwJbZRe",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://docs.googleapis.com/v1/documents/{{ $json.id }}:batchUpdate",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDocsOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($('Code').item.json.docs_request) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1940,
+        840
+      ],
+      "id": "df96000a-da1e-485f-879a-1c069fb5038f",
+      "name": "HTTP Request",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "MldiZHT3OHwJbZRe",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const markdown = $input.first().json.message.content;\n\n// Function to convert Markdown to Google Docs API requests\nfunction convertMarkdownToGoogleDocsRequests(markdown) {\n    const requests = [];\n    let index = 1; // Start inserting at position 1\n\n    // Split by line breaks to handle formatting separately\n    const lines = markdown.split('\\n');\n    \n    for (const line of lines) {\n        const rawText = line.trim();\n        if (!rawText) continue;\n        \n        // Handle horizontal rule (---)\n        if (/^-{3,}$/.test(rawText)) {\n            requests.push({\n                insertText: {\n                    location: { index: index },\n                    text: \"\\n\"\n                }\n            });\n            \n            index += 1; // Account for the newline\n            continue;\n        }\n        \n        let text = rawText;\n        const startIndex = index;\n        \n        // Remove the markdown symbols for heading and list indicators before inserting\n        if (text.startsWith(\"# \")) {\n            text = text.substring(2);\n        } else if (text.startsWith(\"## \")) {\n            text = text.substring(3);\n        } else if (text.startsWith(\"### \")) {\n            text = text.substring(4);\n        } else if (text.startsWith(\"#### \")) {\n            text = text.substring(5);\n        } else if (text.startsWith(\"- \")) {\n            text = text.substring(2);\n        } else if (text.startsWith(\"* \")) {\n            text = text.substring(2);\n        } else if (/^\\d+\\.\\s/.test(text)) {\n            text = text.replace(/^\\d+\\.\\s/, \"\");\n        }\n        \n        // Remove bold and italic markdown before inserting text\n        // Store positions for later styling\n        const boldRanges = [];\n        const italicRanges = [];\n        \n        // Find bold text positions (before removing markers)\n        let boldText = text;\n        const boldRegex = /\\*\\*(.*?)\\*\\*/g;\n        let boldMatch;\n        while ((boldMatch = boldRegex.exec(text)) !== null) {\n            const innerText = boldMatch[1];\n            const start = boldMatch.index;\n            const end = start + boldMatch[0].length;\n            \n            boldRanges.push({\n                text: innerText,\n                originalStart: start,\n                originalEnd: end\n            });\n        }\n        \n        // Find italic text positions (before removing markers)\n        let italicMatch;\n        const italicRegex = /(?<!\\*)\\*(?!\\*)(.+?)(?<!\\*)\\*(?!\\*)/g;\n        while ((italicMatch = italicRegex.exec(text)) !== null) {\n            const innerText = italicMatch[1];\n            const start = italicMatch.index;\n            const end = start + italicMatch[0].length;\n            \n            italicRanges.push({\n                text: innerText,\n                originalStart: start,\n                originalEnd: end\n            });\n        }\n        \n        // Remove markdown indicators for bold and italic\n        text = text.replace(/\\*\\*(.*?)\\*\\*/g, \"$1\");\n        text = text.replace(/(?<!\\*)\\*(?!\\*)(.+?)(?<!\\*)\\*(?!\\*)/g, \"$1\");\n        \n        // Insert clean text without markdown\n        requests.push({\n            insertText: {\n                location: { index: startIndex },\n                text: text + \"\\n\"\n            }\n        });\n        \n        const textEndIndex = startIndex + text.length;\n        \n        // Apply heading styles based on original markdown\n        if (rawText.startsWith(\"# \")) {\n            requests.push({\n                updateParagraphStyle: {\n                    range: { startIndex, endIndex: textEndIndex },\n                    paragraphStyle: { namedStyleType: \"HEADING_1\" },\n                    fields: \"namedStyleType\"\n                }\n            });\n        } else if (rawText.startsWith(\"## \")) {\n            requests.push({\n                updateParagraphStyle: {\n                    range: { startIndex, endIndex: textEndIndex },\n                    paragraphStyle: { namedStyleType: \"HEADING_2\" },\n                    fields: \"namedStyleType\"\n                }\n            });\n        } else if (rawText.startsWith(\"### \")) {\n            requests.push({\n                updateParagraphStyle: {\n                    range: { startIndex, endIndex: textEndIndex },\n                    paragraphStyle: { namedStyleType: \"HEADING_3\" },\n                    fields: \"namedStyleType\"\n                }\n            });\n        } else if (rawText.startsWith(\"#### \")) {\n            requests.push({\n                updateParagraphStyle: {\n                    range: { startIndex, endIndex: textEndIndex },\n                    paragraphStyle: { namedStyleType: \"HEADING_4\" },\n                    fields: \"namedStyleType\"\n                }\n            });\n        } else if (rawText.startsWith(\"- \") || rawText.startsWith(\"* \")) {\n            // Format as bulleted list\n            requests.push({\n                createParagraphBullets: {\n                    range: { startIndex, endIndex: textEndIndex },\n                    bulletPreset: \"BULLET_DISC_CIRCLE_SQUARE\"\n                }\n            });\n            \n            // Add proper indentation\n            requests.push({\n                updateParagraphStyle: {\n                    range: { startIndex, endIndex: textEndIndex },\n                    paragraphStyle: {\n                        indentStart: { magnitude: 36, unit: \"PT\" }\n                    },\n                    fields: \"indentStart\"\n                }\n            });\n        } else if (/^\\d+\\.\\s/.test(rawText)) {\n            // Format as numbered list\n            requests.push({\n                createParagraphBullets: {\n                    range: { startIndex, endIndex: textEndIndex },\n                    bulletPreset: \"NUMBERED_DECIMAL_ALPHA_ROMAN\"\n                }\n            });\n            \n            // Add proper indentation\n            requests.push({\n                updateParagraphStyle: {\n                    range: { startIndex, endIndex: textEndIndex },\n                    paragraphStyle: {\n                        indentStart: { magnitude: 36, unit: \"PT\" }\n                    },\n                    fields: \"indentStart\"\n                }\n            });\n        }\n        \n        // Calculate adjusted positions for bold and italic after removing markdown\n        let adjustment = 0;\n        let lastProcessedPos = 0;\n        \n        // Apply bold formatting (with adjusted positions)\n        for (let i = 0; i < boldRanges.length; i++) {\n            const range = boldRanges[i];\n            // Adjust for any previous formatting markers removed\n            const adjustedStart = startIndex + range.originalStart - adjustment;\n            // Update adjustment for next element\n            adjustment += 4; // ** at beginning and end (4 characters total)\n            \n            requests.push({\n                updateTextStyle: {\n                    range: {\n                        startIndex: adjustedStart,\n                        endIndex: adjustedStart + range.text.length\n                    },\n                    textStyle: { bold: true },\n                    fields: \"bold\"\n                }\n            });\n        }\n        \n        // Reset adjustment for italic formatting\n        adjustment = 0;\n        \n        // Apply italic formatting (with adjusted positions after bold markdown is removed)\n        for (let i = 0; i < italicRanges.length; i++) {\n            const range = italicRanges[i];\n            // Adjust for previous bold formatting and previous italic markers\n            let adjustedStart = startIndex + range.originalStart;\n            \n            // Count how many bold markers appear before this italic position\n            let boldAdjustment = 0;\n            for (const boldRange of boldRanges) {\n                if (boldRange.originalEnd <= range.originalStart) {\n                    boldAdjustment += 4; // ** at start and end\n                }\n            }\n            \n            // Count how many italic markers appear before this position\n            let italicAdjustment = 0;\n            for (let j = 0; j < i; j++) {\n                if (italicRanges[j].originalEnd <= range.originalStart) {\n                    italicAdjustment += 2; // * at start and end\n                }\n            }\n            \n            adjustedStart -= (boldAdjustment + italicAdjustment);\n            \n            requests.push({\n                updateTextStyle: {\n                    range: {\n                        startIndex: adjustedStart,\n                        endIndex: adjustedStart + range.text.length\n                    },\n                    textStyle: { italic: true },\n                    fields: \"italic\"\n                }\n            });\n        }\n        \n        index = textEndIndex + 1; // +1 for the newline\n    }\n\n    return requests;\n}\n\n// Convert Markdown to Google Docs API requests\nconst requests = convertMarkdownToGoogleDocsRequests(markdown);\n\nreturn {\n  docs_request: { requests }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        840
+      ],
+      "id": "140f67b5-991a-415d-88f1-7a9f11dcd894",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70",
+          "mode": "list",
+          "cachedResultName": "n8n Tailored CV automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1U5USaLop6AKWrzCFloN6s_2nIfWmNZUN3fuit-kxJ70/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Finished",
+            "start / stop": "start",
+            "Generated Resume Link": "=https://docs.google.com/document/d/{{ $('create refined resume').item.json.id }}"
+          },
+          "matchingColumns": [
+            "start / stop"
+          ],
+          "schema": [
+            {
+              "id": "start / stop",
+              "displayName": "start / stop",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "User",
+              "displayName": "User",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Description",
+              "displayName": "Job Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Cover Letter Link",
+              "displayName": "Generated Cover Letter Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generated Resume Link",
+              "displayName": "Generated Resume Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Ad keywords",
+              "displayName": "Job Ad keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "User's Resume Keywords",
+              "displayName": "User's Resume Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Refined Keywords",
+              "displayName": "Refined Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company Missions and Values",
+              "displayName": "Company Missions and Values",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2160,
+        840
+      ],
+      "id": "b53ff57d-a283-4ec0-8b1b-6e8de2227e89",
+      "name": "Update Status: Refined resume Generated",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sp8hXEF7O5wMqJTo",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -2102,11 +2350,6 @@
     "Update Status: Refined keyword generated": {
       "main": [
         [
-          {
-            "node": "Keyword Refiner1",
-            "type": "main",
-            "index": 0
-          },
           {
             "node": "Company Missions And Value",
             "type": "main",
@@ -2271,7 +2514,57 @@
     },
     "Update Status: Refined Cover Letter Generated": {
       "main": [
-        []
+        [
+          {
+            "node": "Resume Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resume Summary": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create refined resume": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "create refined resume",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Update Status: Refined resume Generated",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -2279,7 +2572,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "d002e03a-b65b-4053-8d1a-2f30ad9f152e",
+  "versionId": "0ca7e288-de3f-4161-b678-40d6d96bed6e",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "562decce586825797ad23fdec8296d72c204d6201df525588fbf10fcbbf8763f"
